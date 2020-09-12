@@ -50,6 +50,8 @@ dependencies:
   delayed_display: ^1.0.3
   flutter_staggered_animations: ^0.1.2
   fl_chart: ^0.9.4
+  flutter_swiper:
+  charts_flutter:
 
 
   # The following adds the Cupertino Icons font to your application.

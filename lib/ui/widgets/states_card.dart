@@ -12,7 +12,7 @@ class StatesCard extends StatelessWidget {
   final String deltaRecovered;
   final String decreased;
   final String deltaDecreased;
-  var data;
+  final data;
 
   StatesCard(
       {Key key,
