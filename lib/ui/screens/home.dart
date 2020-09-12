@@ -1,8 +1,10 @@
 import 'package:acadpal_task/bloc/covid_bloc.dart';
 import 'package:acadpal_task/repositories/enums.dart';
+import 'package:acadpal_task/ui/screens/state_page.dart';
 import 'package:acadpal_task/ui/widgets/loading.dart';
 import 'package:acadpal_task/ui/widgets/noNetwork.dart';
 import 'package:acadpal_task/ui/widgets/states_card.dart';
+import 'package:acadpal_task/utils/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,8 +17,10 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home>
-    with AutomaticKeepAliveClientMixin {
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
+
+  Data data = Data();
+
   @override
   void didChangeDependencies() {
     BlocProvider.of<Covid_19Bloc>(context).add(FetchCase());
@@ -107,27 +111,62 @@ class _HomeState extends State<Home>
                       left: ScreenUtil().setWidth(30),
                       right: ScreenUtil().setWidth(30),
                     ),
-                    child: StatesCard(
-                      stateName: totalData1['statewise'][index + 1]
-                      ['state'],
-                      confirmed: display(int.parse(totalData1['statewise']
-                      [index + 1]['confirmed'])),
-                      deltaConfirmed: display(int.parse(
-                          totalData1['statewise'][index + 1]
-                          ['deltaconfirmed'])),
-                      active: display(int.parse(
-                          totalData1['statewise'][index + 1]['active'])),
-                      recovered: display(int.parse(totalData1['statewise']
-                      [index + 1]['recovered'])),
-                      deltaRecovered: display(int.parse(
-                          totalData1['statewise'][index + 1]
-                          ['deltarecovered'])),
-                      decreased: display(int.parse(
-                          totalData1['statewise'][index + 1]['deaths'])),
-                      deltaDecreased: display(int.parse(
-                          totalData1['statewise'][index + 1]
-                          ['deltadeaths'])),
-                      data: _generateConfirmedData(index + 1),
+                    child: GestureDetector(
+                      child: StatesCard(
+                        stateName: totalData1['statewise'][index + 1]
+                        ['state'],
+                        confirmed: display(int.parse(
+                            totalData1['statewise'][index + 1]
+                            ['confirmed'])),
+                        deltaConfirmed: display(int.parse(
+                            totalData1['statewise'][index + 1]
+                            ['deltaconfirmed'])),
+                        active: display(int.parse(totalData1['statewise']
+                        [index + 1]['active'])),
+                        recovered: display(int.parse(
+                            totalData1['statewise'][index + 1]
+                            ['recovered'])),
+                        deltaRecovered: display(int.parse(
+                            totalData1['statewise'][index + 1]
+                            ['deltarecovered'])),
+                        decreased: display(int.parse(
+                            totalData1['statewise'][index + 1]
+                            ['deaths'])),
+                        deltaDecreased: display(int.parse(
+                            totalData1['statewise'][index + 1]
+                            ['deltadeaths'])),
+                        data: _generateConfirmedData(index + 1),
+                      ),
+                      onTap: () =>
+                          Future(
+                                  () => data.getData().whenComplete(() => Navigator.of(context)
+                                  .pushReplacement(
+                                  MaterialPageRoute(builder: (BuildContext context) => StatePage(stateName: totalData1['statewise'][index + 1]
+                                  ['state'],
+                                    confirmed: display(int.parse(
+                                        totalData1['statewise'][index + 1]
+                                        ['confirmed'])),
+                                    deltaConfirmed: display(int.parse(
+                                        totalData1['statewise'][index + 1]
+                                        ['deltaconfirmed'])),
+                                    active: display(int.parse(totalData1['statewise']
+                                    [index + 1]['active'])),
+                                    recovered: display(int.parse(
+                                        totalData1['statewise'][index + 1]
+                                        ['recovered'])),
+                                    deltaRecovered: display(int.parse(
+                                        totalData1['statewise'][index + 1]
+                                        ['deltarecovered'])),
+                                    decreased: display(int.parse(
+                                        totalData1['statewise'][index + 1]
+                                        ['deaths'])),
+                                    deltaDecreased: display(int.parse(
+                                        totalData1['statewise'][index + 1]
+                                        ['deltadeaths'])),
+                                    data: _generateConfirmedData(index + 1),
+                                  index: index,),),),
+                            ),
+                          ),
                     ),
                   );
                 },
@@ -142,6 +181,7 @@ class _HomeState extends State<Home>
           },
         ));
   }
+
 
   @override
   bool get wantKeepAlive => true;

@@ -1,3 +1,4 @@
+import 'package:acadpal_task/ui/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:acadpal_task/utils/data.dart';
@@ -6,6 +7,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:acadpal_task/utils/graph_duration.dart';
 
 class StatePage extends StatefulWidget {
+  final int index;
   final String stateName;
   final String confirmed;
   final String deltaConfirmed;
@@ -18,6 +20,7 @@ class StatePage extends StatefulWidget {
 
   StatePage(
       {Key key,
+        this.index,
         this.stateName,
         this.confirmed,
         this.deltaConfirmed,
@@ -34,6 +37,7 @@ class StatePage extends StatefulWidget {
 }
 
 class _StatePageState extends State<StatePage> {
+
   SwiperController _swiperController = SwiperController();
   bool _animateCharts = true;
 
@@ -54,9 +58,9 @@ class _StatePageState extends State<StatePage> {
 
   List<charts.Series<CADRPie, String>> _seriesPieData() {
     var pieData = [
-      CADRPie('Active',int.parse(widget.active), Color(0xff0099cf)),
-      CADRPie('Recovered', int.parse(widget.recovered), Color(0xff61dd74)),
-      CADRPie('Deceased', int.parse(widget.decreased), Color(0xffe75f5f))
+      CADRPie('Active', Data.caseData.states[widget.index].active, Color(0xff0099cf)),
+      CADRPie('Recovered', Data.caseData.states[widget.index].recovered, Color(0xff61dd74)),
+      CADRPie('Deceased', Data.caseData.states[widget.index].deceased, Color(0xffe75f5f))
     ];
     return [
       charts.Series(
@@ -346,7 +350,7 @@ class _StatePageState extends State<StatePage> {
                 child: InkWell(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          DistrictWise(widget.index))),
+                         Home())),
                   child: Row(children: <Widget>[
                     Padding(
                         padding: const EdgeInsets.all(12.0),
