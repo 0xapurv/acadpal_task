@@ -10,12 +10,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:number_display/number_display.dart';
 import 'package:provider/provider.dart';
 
-class IndianStates extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _IndianStatesState createState() => _IndianStatesState();
+  _HomeState createState() => _HomeState();
 }
 
-class _IndianStatesState extends State<IndianStates>
+class _HomeState extends State<Home>
     with AutomaticKeepAliveClientMixin {
   @override
   void didChangeDependencies() {
@@ -43,7 +43,7 @@ class _IndianStatesState extends State<IndianStates>
                     'Indian',
                     style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF325384),
+                      color: Colors.blue,
                     ),
                   ),
                   SizedBox(
@@ -53,7 +53,7 @@ class _IndianStatesState extends State<IndianStates>
                     'States',
                     style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue,
+                      color: Colors.lightGreen,
                     ),
                   ),
                 ],

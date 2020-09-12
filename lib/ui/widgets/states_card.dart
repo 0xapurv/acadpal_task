@@ -169,8 +169,8 @@ class StatesCard extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.red[500],
-                    Colors.red[100],
+                    Colors.lightGreen,
+                    Colors.blue[400],
                   ],
                 ),
               ),
