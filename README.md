@@ -2,11 +2,9 @@
 
 A new Flutter application.
 
-## Getting Started
+## Screens
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
+![acad_pal](https://user-images.githubusercontent.com/59207688/93010836-535deb00-f5ae-11ea-979d-9c6c619d0b47.gif)
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
