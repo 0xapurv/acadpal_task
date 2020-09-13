@@ -1,7 +1,7 @@
 # acadpal_task
 
 This app Track tracks the active, recovered and deaths due to corona virus in india and updates daily.
-This Mobile application allows you to select different countries to obtain the results seperately with graphical visualisations.
+This Mobile application allows you to select different states to obtain the results seperately with graphical visualisations.
 
 ## Screens
 
