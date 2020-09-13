@@ -176,6 +176,9 @@ class _StatePageState extends State<StatePage> {
       ),
       body: Column(
         children: <Widget>[
+          Container(
+            height: 10,
+          ),
           Text('Total Cases  (${Data.caseData.states[widget.index].confirmed} Confirmed)',
               style: TextStyle(
                   fontFamily: 'Darker Grotesque',
@@ -330,6 +333,7 @@ class _StatePageState extends State<StatePage> {
           ),
           Expanded(
               child: Swiper(
+                autoplay: true,
                 itemCount: 4,
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -351,24 +355,18 @@ class _StatePageState extends State<StatePage> {
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) =>
                          Home())),
-                  child: Row(children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text('View Statewise Data',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize:
-                                    MediaQuery.of(context).size.width / 24,
-                                    fontFamily: 'Darker Grotesque',
-                                    fontWeight: FontWeight.w600)),
-                            Icon(Icons.navigate_next, color: Colors.white)
-                          ],
-                        ))
-                  ]),
+                  child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child:
+                          Text('View Statewise Data',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                  MediaQuery.of(context).size.width / 24,
+                                  fontFamily: 'Darker Grotesque',
+                                  fontWeight: FontWeight.w600)),
+                       ),
                 ),
               ))
         ],
