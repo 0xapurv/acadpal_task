@@ -27,8 +27,8 @@ class Data {
 
   Future _getCaseData() async {
     var data =
-        await http.get('https://api.covid19india.org/state_district_wise.json');
-    var jsonData = await json.decode(data.body);
+        await http.get('https://api.covid19india.org/data.json');
+    var jsonData = await json.decode(data.body)['statewise'];
     var states = List<StateData>();
     var totalConfirmed = 0;
     var totalActive = 0;
@@ -39,28 +39,15 @@ class Data {
     List<StateDaily> daily = dailyData[1];
     daily.removeWhere((element) => element.stateCode==null);
     int stateIndex = -1;
-    jsonData.forEach((sk, sv) {
+    jsonData.forEach((sv) {
       ++stateIndex;
       var districts = List<DistrictData>();
-      var confirmed = 0;
-      var active = 0;
-      var deceased = 0;
-      var recovered = 0;
-      sv['districtData'].forEach((dk, dv) {
-        confirmed += dv['confirmed'];
-        active += dv['active'];
-        deceased += dv['deceased'];
-        recovered += dv['recovered'];
-        districts.add(DistrictData(
-            name: dk,
-            confirmed: dv['confirmed'],
-            active: dv['active'],
-            deceased: dv['deceased'],
-            recovered: dv['recovered']));
-      });
+      var confirmed = int.parse(sv['confirmed']);
+      var active =int.parse(sv['active']) ;
+      var deceased = int.parse(sv['deaths']);
+      var recovered = int.parse(sv['recovered']);
       states.add(StateData(
-          name: sk,
-          stateCode: sv['statecode'],
+          name: sv['state'],
           districts: districts,
           confirmed: confirmed,
           active: active,

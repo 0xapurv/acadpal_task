@@ -5,6 +5,7 @@ import 'package:acadpal_task/ui/widgets/loading.dart';
 import 'package:acadpal_task/ui/widgets/noNetwork.dart';
 import 'package:acadpal_task/ui/widgets/states_card.dart';
 import 'package:acadpal_task/utils/data.dart';
+import 'package:acadpal_task/utils/sort.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +21,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   Data data = Data();
+
+  @override
+  void initState() {
+    data.getData();
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -139,33 +146,47 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       ),
                       onTap: () =>
                           Future(
-                                  () => data.getData().whenComplete(() => Navigator.of(context)
-                                  .pushReplacement(
-                                  MaterialPageRoute(builder: (BuildContext context) => StatePage(stateName: totalData1['statewise'][index + 1]
-                                  ['state'],
-                                    confirmed: display(int.parse(
-                                        totalData1['statewise'][index + 1]
-                                        ['confirmed'])),
-                                    deltaConfirmed: display(int.parse(
-                                        totalData1['statewise'][index + 1]
-                                        ['deltaconfirmed'])),
-                                    active: display(int.parse(totalData1['statewise']
-                                    [index + 1]['active'])),
-                                    recovered: display(int.parse(
-                                        totalData1['statewise'][index + 1]
-                                        ['recovered'])),
-                                    deltaRecovered: display(int.parse(
-                                        totalData1['statewise'][index + 1]
-                                        ['deltarecovered'])),
-                                    decreased: display(int.parse(
-                                        totalData1['statewise'][index + 1]
-                                        ['deaths'])),
-                                    deltaDecreased: display(int.parse(
-                                        totalData1['statewise'][index + 1]
-                                        ['deltadeaths'])),
-                                    data: _generateConfirmedData(index + 1),
-                                  index: index,),),),
-                            ),
+                                () =>
+                                data.getData().whenComplete(() =>
+                                    Navigator.of(context)
+                                        .pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            StatePage(
+                                              stateName: totalData1['statewise'][index +
+                                                  1]
+                                              ['state'],
+                                              confirmed: display(int.parse(
+                                                  totalData1['statewise'][index +
+                                                      1]
+                                                  ['confirmed'])),
+                                              deltaConfirmed: display(int.parse(
+                                                  totalData1['statewise'][index +
+                                                      1]
+                                                  ['deltaconfirmed'])),
+                                              active: display(int.parse(
+                                                  totalData1['statewise']
+                                                  [index + 1]['active'])),
+                                              recovered: display(int.parse(
+                                                  totalData1['statewise'][index +
+                                                      1]
+                                                  ['recovered'])),
+                                              deltaRecovered: display(int.parse(
+                                                  totalData1['statewise'][index +
+                                                      1]
+                                                  ['deltarecovered'])),
+                                              decreased: display(int.parse(
+                                                  totalData1['statewise'][index +
+                                                      1]
+                                                  ['deaths'])),
+                                              deltaDecreased: display(int.parse(
+                                                  totalData1['statewise'][index +
+                                                      1]
+                                                  ['deltadeaths'])),
+                                              data: _generateConfirmedData(
+                                                  index + 1),
+                                              index: index+1,),),),
+                                ),
                           ),
                     ),
                   );

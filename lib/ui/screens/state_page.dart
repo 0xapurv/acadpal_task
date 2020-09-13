@@ -164,15 +164,15 @@ class _StatePageState extends State<StatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(Data.caseData.states[widget.index].name, style: TextStyle(color: Theme.of(context).textTheme.headline6.color)),
+        backgroundColor: Colors.white,
+        title: Text(Data.caseData.states[widget.index].name, style: TextStyle(color: Colors.green)),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios,color: Colors.blue,),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        iconTheme: Theme.of(context).appBarTheme.iconTheme,
       ),
       body: Column(
         children: <Widget>[
