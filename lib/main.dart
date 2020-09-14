@@ -4,6 +4,7 @@ import 'package:acadpal_task/repositories/enums.dart';
 import 'package:acadpal_task/repositories/repositories.dart';
 import 'package:acadpal_task/bloc/bloc_delegate.dart';
 import 'package:acadpal_task/ui/screens/home.dart';
+import 'package:acadpal_task/ui/widgets/noNetwork.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

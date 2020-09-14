@@ -1,10 +1,13 @@
+import 'package:acadpal_task/repositories/enums.dart';
 import 'package:acadpal_task/ui/screens/home.dart';
+import 'package:acadpal_task/ui/widgets/noNetwork.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:acadpal_task/utils/data.dart';
 import 'package:acadpal_task/utils/data_containers.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:acadpal_task/utils/graph_duration.dart';
+import 'package:provider/provider.dart';
 
 class StatePage extends StatefulWidget {
   final int index;
@@ -43,6 +46,7 @@ class _StatePageState extends State<StatePage> {
 
   GraphDuration _graphDuration = GraphDuration.lifetime;
 
+
   final List<String> _lineGraphTitle = [
     'Daily Data',
     'Daily Confirmed',
@@ -58,9 +62,12 @@ class _StatePageState extends State<StatePage> {
 
   List<charts.Series<CADRPie, String>> _seriesPieData() {
     var pieData = [
-      CADRPie('Active', Data.caseData.states[widget.index].active, Color(0xff0099cf)),
-      CADRPie('Recovered', Data.caseData.states[widget.index].recovered, Color(0xff61dd74)),
-      CADRPie('Deceased', Data.caseData.states[widget.index].deceased, Color(0xffe75f5f))
+      CADRPie('Active', Data.caseData.states[widget.index].active,
+          Color(0xff0099cf)),
+      CADRPie('Recovered', Data.caseData.states[widget.index].recovered,
+          Color(0xff61dd74)),
+      CADRPie('Deceased', Data.caseData.states[widget.index].deceased,
+          Color(0xffe75f5f))
     ];
     return [
       charts.Series(
@@ -77,14 +84,18 @@ class _StatePageState extends State<StatePage> {
   List<charts.Series<DateVsValue, DateTime>> _dailyConfirmedData() {
     int maxIndex = _graphDuration == GraphDuration.week
         ? 7
-        : _graphDuration == GraphDuration.month ? 30 : Data.caseData.states[widget.index].daily.length;
+        : _graphDuration == GraphDuration.month ? 30 : Data.caseData
+        .states[widget.index].daily.length;
     var confirmedData = List<DateVsValue>.generate(
         maxIndex,
-            (index) => DateVsValue(
-            Data.caseData.states[widget.index].daily[Data.caseData.states[widget.index].daily.length - maxIndex + index].date,
-            Data.caseData.states[widget.index].daily[Data.caseData.states[widget.index].daily.length - maxIndex + index]
-                .confirmed
-                .toDouble()));
+            (index) =>
+            DateVsValue(
+                Data.caseData.states[widget.index].daily[Data.caseData
+                    .states[widget.index].daily.length - maxIndex + index].date,
+                Data.caseData.states[widget.index].daily[Data.caseData
+                    .states[widget.index].daily.length - maxIndex + index]
+                    .confirmed
+                    .toDouble()));
     return [
       charts.Series(
           id: 'ID',
@@ -98,14 +109,18 @@ class _StatePageState extends State<StatePage> {
   List<charts.Series<DateVsValue, DateTime>> _dailyRecoveredData() {
     int maxIndex = _graphDuration == GraphDuration.week
         ? 7
-        : _graphDuration == GraphDuration.month ? 30 : Data.caseData.states[widget.index].daily.length;
+        : _graphDuration == GraphDuration.month ? 30 : Data.caseData
+        .states[widget.index].daily.length;
     var recoveredData = List<DateVsValue>.generate(
         maxIndex,
-            (index) => DateVsValue(
-            Data.caseData.states[widget.index].daily[Data.caseData.states[widget.index].daily.length - maxIndex + index].date,
-            Data.caseData.states[widget.index].daily[Data.caseData.states[widget.index].daily.length - maxIndex + index]
-                .recovered
-                .toDouble()));
+            (index) =>
+            DateVsValue(
+                Data.caseData.states[widget.index].daily[Data.caseData
+                    .states[widget.index].daily.length - maxIndex + index].date,
+                Data.caseData.states[widget.index].daily[Data.caseData
+                    .states[widget.index].daily.length - maxIndex + index]
+                    .recovered
+                    .toDouble()));
     return [
       charts.Series(
           id: 'ID',
@@ -119,14 +134,18 @@ class _StatePageState extends State<StatePage> {
   List<charts.Series<DateVsValue, DateTime>> _dailyDeceasedData() {
     int maxIndex = _graphDuration == GraphDuration.week
         ? 7
-        : _graphDuration == GraphDuration.month ? 30 : Data.caseData.states[widget.index].daily.length;
+        : _graphDuration == GraphDuration.month ? 30 : Data.caseData
+        .states[widget.index].daily.length;
     var deceasedData = List<DateVsValue>.generate(
         maxIndex,
-            (index) => DateVsValue(
-            Data.caseData.states[widget.index].daily[Data.caseData.states[widget.index].daily.length - maxIndex + index].date,
-            Data.caseData.states[widget.index].daily[Data.caseData.states[widget.index].daily.length - maxIndex + index]
-                .deceased
-                .toDouble()));
+            (index) =>
+            DateVsValue(
+                Data.caseData.states[widget.index].daily[Data.caseData
+                    .states[widget.index].daily.length - maxIndex + index].date,
+                Data.caseData.states[widget.index].daily[Data.caseData
+                    .states[widget.index].daily.length - maxIndex + index]
+                    .deceased
+                    .toDouble()));
     return [
       charts.Series(
           id: 'ID',
@@ -136,7 +155,6 @@ class _StatePageState extends State<StatePage> {
           measureFn: (DateVsValue dvv, _) => dvv.value)
     ];
   }
-
 
 
   Widget _swiperGraph(int index) {
@@ -163,32 +181,46 @@ class _StatePageState extends State<StatePage> {
 
   @override
   Widget build(BuildContext context) {
+    var connectionStatus = Provider.of<ConnectivityStatus>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(Data.caseData.states[widget.index].name, style: TextStyle(color: Colors.green)),
+        title: Text(Data.caseData.states[widget.index].name,
+            style: TextStyle(color: Colors.green)),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios,color: Colors.blue,),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.blue,),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: Column(
+      body: connectionStatus == ConnectivityStatus.offline
+          ? NoNetwork()
+          :Column(
         children: <Widget>[
           Container(
             height: 10,
           ),
-          Text('Total Cases  (${Data.caseData.states[widget.index].confirmed} Confirmed)',
+          Text('Total Cases  (${Data.caseData.states[widget.index]
+              .confirmed} Confirmed)',
               style: TextStyle(
                   fontFamily: 'Darker Grotesque',
-                  fontSize: MediaQuery.of(context).size.width / 24,
+                  fontSize: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 24,
                   fontWeight: FontWeight.w500)),
           Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width / 20),
+                horizontal: MediaQuery
+                    .of(context)
+                    .size
+                    .width / 20),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height / 3,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height / 3,
               child: Row(
                 children: <Widget>[
                   Flexible(
@@ -198,7 +230,10 @@ class _StatePageState extends State<StatePage> {
                       animate: _animateCharts,
                       animationDuration: Duration(milliseconds: 300),
                       defaultRenderer: charts.ArcRendererConfig(
-                          arcWidth: MediaQuery.of(context).size.width ~/ 6,
+                          arcWidth: MediaQuery
+                              .of(context)
+                              .size
+                              .width ~/ 6,
                           arcRendererDecorators: [
                             charts.ArcLabelDecorator(
                               labelPosition: charts.ArcLabelPosition.auto,
@@ -220,7 +255,8 @@ class _StatePageState extends State<StatePage> {
                               child: Hero(
                                   tag: 'activetext',
                                   child: Text('Active',
-                                      style: Theme.of(context)
+                                      style: Theme
+                                          .of(context)
                                           .textTheme
                                           .bodyText1)),
                             )
@@ -234,7 +270,8 @@ class _StatePageState extends State<StatePage> {
                               child: Hero(
                                   tag: 'recoveredtext',
                                   child: Text('Recovered',
-                                      style: Theme.of(context)
+                                      style: Theme
+                                          .of(context)
                                           .textTheme
                                           .bodyText1)),
                             )
@@ -248,7 +285,8 @@ class _StatePageState extends State<StatePage> {
                               child: Hero(
                                   tag: 'deceasedtext',
                                   child: Text('Deceased',
-                                      style: Theme.of(context)
+                                      style: Theme
+                                          .of(context)
                                           .textTheme
                                           .bodyText1)),
                             )
@@ -269,64 +307,100 @@ class _StatePageState extends State<StatePage> {
                     : _lineGraphTitle[_swiperController.index],
                 style: TextStyle(
                     fontFamily: 'Darker Grotesque',
-                    fontSize: MediaQuery.of(context).size.width / 24,
+                    fontSize: MediaQuery
+                        .of(context)
+                        .size
+                        .width / 24,
                     fontWeight: FontWeight.w500)),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Container(
-                  width: MediaQuery.of(context).size.width / 6,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 6,
                   decoration: BoxDecoration(
                       color: _graphDuration == GraphDuration.week
-                          ? Theme.of(context).accentColor
-                          : Theme.of(context).backgroundColor,
+                          ? Theme
+                          .of(context)
+                          .accentColor
+                          : Theme
+                          .of(context)
+                          .backgroundColor,
                       borderRadius: BorderRadius.all(Radius.circular(100))),
                   child: GestureDetector(
-                    onTap: () => setState(() {
-                      _graphDuration = GraphDuration.week;
-                    }),
+                    onTap: () =>
+                        setState(() {
+                          _graphDuration = GraphDuration.week;
+                        }),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text('Week',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.button),
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .button),
                     ),
                   )),
               Container(
-                  width: MediaQuery.of(context).size.width / 6,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 6,
                   decoration: BoxDecoration(
                       color: _graphDuration == GraphDuration.month
-                          ? Theme.of(context).accentColor
-                          : Theme.of(context).backgroundColor,
+                          ? Theme
+                          .of(context)
+                          .accentColor
+                          : Theme
+                          .of(context)
+                          .backgroundColor,
                       borderRadius: BorderRadius.all(Radius.circular(100))),
                   child: GestureDetector(
-                    onTap: () => setState(() {
-                      _graphDuration = GraphDuration.month;
-                    }),
+                    onTap: () =>
+                        setState(() {
+                          _graphDuration = GraphDuration.month;
+                        }),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text('Month',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.button),
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .button),
                     ),
                   )),
               Container(
-                  width: MediaQuery.of(context).size.width / 6,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 6,
                   decoration: BoxDecoration(
                       color: _graphDuration == GraphDuration.lifetime
-                          ? Theme.of(context).accentColor
-                          : Theme.of(context).backgroundColor,
+                          ? Theme
+                          .of(context)
+                          .accentColor
+                          : Theme
+                          .of(context)
+                          .backgroundColor,
                       borderRadius: BorderRadius.all(Radius.circular(100))),
                   child: GestureDetector(
-                    onTap: () => setState(() {
-                      _graphDuration = GraphDuration.lifetime;
-                    }),
+                    onTap: () =>
+                        setState(() {
+                          _graphDuration = GraphDuration.lifetime;
+                        }),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text('Lifetime',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.button),
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .button),
                     ),
                   )),
             ],
@@ -335,38 +409,46 @@ class _StatePageState extends State<StatePage> {
               child: Swiper(
                 autoplay: true,
                 itemCount: 4,
-                itemBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: _swiperGraph(index),
-                ),
+                itemBuilder: (context, index) =>
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: _swiperGraph(index),
+                    ),
                 pagination: SwiperPagination(),
                 controller: _swiperController,
-                onIndexChanged: (index) => setState(() {
-                  _swiperController.index = index;
-                }),
+                onIndexChanged: (index) =>
+                    setState(() {
+                      _swiperController.index = index;
+                    }),
               )),
           Padding(
               padding: const EdgeInsets.all(8.0),
               child: Material(
                 elevation: 16.0,
                 borderRadius: BorderRadius.all(Radius.circular((5.0))),
-                color: Theme.of(context).accentColor,
+                color: Theme
+                    .of(context)
+                    .accentColor,
                 child: InkWell(
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                         Home())),
+                  onTap: () =>
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              Home())),
                   child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child:
-                          Text('View Statewise Data',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize:
-                                  MediaQuery.of(context).size.width / 24,
-                                  fontFamily: 'Darker Grotesque',
-                                  fontWeight: FontWeight.w600)),
-                       ),
+                    padding: const EdgeInsets.all(12.0),
+                    child:
+                    Text('View Statewise Data',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize:
+                            MediaQuery
+                                .of(context)
+                                .size
+                                .width / 24,
+                            fontFamily: 'Darker Grotesque',
+                            fontWeight: FontWeight.w600)),
+                  ),
                 ),
               ))
         ],
